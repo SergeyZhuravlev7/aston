@@ -4,6 +4,8 @@ package ru.zhuravlev.Task2.services;
 import ru.zhuravlev.Task2.daos.UserDAOImpl;
 import ru.zhuravlev.Task2.entitys.User;
 
+import java.util.Collection;
+
 public class UserService {
 
     private final UserDAOImpl userDAO = new UserDAOImpl();
@@ -30,5 +32,9 @@ public class UserService {
 
     void delete(long id) {
         userDAO.delete(id);
+    }
+
+    Collection<User> findAll() {
+        return userDAO.findAll();
     }
 }

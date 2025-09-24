@@ -6,6 +6,8 @@ import ru.zhuravlev.Task2.entitys.User;
 import ru.zhuravlev.Task2.util.ConsoleUI;
 import ru.zhuravlev.Task2.util.DAOException;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
@@ -19,33 +21,29 @@ public class CommandHandler {
 
 
     public void start() {
-        console.printLine();
-        console.print("Welcome in UserService application!");
+        console.printWithLineBreak("Welcome in UserService application!");
         boolean running = true;
 
         while (running) {
-            console.printLine();
-            console.print("""
+            console.printWithLineBreak("""
                     Choose your command:
                     Save - create new user and save
-                    Read - find user by email,name or id
+                    Find - find user by email,name or id
+                    FindAll - show all users
                     Update - update user with selected id
                     Delete - delete user with selected id
                     Exit - for stop application""");
-            console.printLine();
-
             String command = console.nextLine();
             switch (command) {
                 case "Save" -> handleSave();
-                case "Read" -> handleRead();
+                case "Find" -> handleFind();
+                case "FindAll" -> handleFindAll();
                 case "Update" -> handleUpdate();
                 case "Delete" -> handleDelete();
                 case "Exit" -> {
                     running = false;
                     log.info("Application stopped.");
-                    console.printLine();
-                    console.print("Goodbye!");
-                    console.printLine();
+                    console.printWithLineBreak("Goodbye!");
                 }
                 default -> log.warn("Invalid command: {}",command);
             }
@@ -59,39 +57,30 @@ public class CommandHandler {
             user.setCreated_at(now());
             userService.saveUser(user);
             log.info("User created successfully!");
-            console.printLine();
-            console.print("User created successfully!");
-            console.printLine();
+            console.printWithLineBreak("User created successfully!");
         } catch (DAOException ex) {
             log.warn(ex.getMessage());
         }
     }
 
-    private void handleRead() {
+    private void handleFind() {
         Object result = null;
         try {
-            result = userInputService.handleRead(userService);
+            result = userInputService.handleFind(userService);
         } catch (DAOException ex) {
             log.warn(ex.getMessage());
         }
         if (result != null) {
-            console.printLine();
-            console.print("Lets see what im can find.");
-            console.print("\n");
+            console.printWithLineBreak("Lets see what im can find.");
             if (result instanceof User) console.print(result.toString());
             else {
-                List<User> users = (List<User>) result;
-                for (User user : users) {
-                    console.print(user.toString());
-                }
+                List<User> userList = (List<User>) result;
+                console.printList(userList);
             }
-            console.printLine();
         }
         else {
             log.warn("User not existing.");
-            console.printLine();
-            console.print("Cant find this user. Try again with corrected input.");
-            console.printLine();
+            console.printWithLineBreak("Cant find this user. Try again with corrected input.");
         }
     }
 
@@ -101,14 +90,10 @@ public class CommandHandler {
         try {
             userService.update(user,user.getId());
             log.info("User updated successfully!");
-            console.printLine();
-            console.print("User updated successfully!");
-            console.printLine();
+            console.printWithLineBreak("User updated successfully!");
         } catch (DAOException ex) {
             log.warn(ex.getMessage());
-            console.printLine();
-            console.print("Sorry, but user with id " + user.getId() + " was not found!");
-            console.printLine();
+            console.printWithLineBreak("Sorry, but user with id " + user.getId() + " was not found!");
         }
     }
 
@@ -117,14 +102,27 @@ public class CommandHandler {
         try {
             userService.delete(id);
             log.info("User deleted successfully!");
-            console.printLine();
-            console.print("User deleted successfully!");
-            console.printLine();
+            console.printWithLineBreak("User deleted successfully!");
         } catch (DAOException ex) {
             log.warn(ex.getMessage());
-            console.printLine();
-            console.print("Sorry, but user with id " + id + " was not found!");
-            console.printLine();
+            console.printWithLineBreak("Sorry, but user with id " + id + " was not found!");
         }
+    }
+
+    private void handleFindAll() {
+        Collection<User> users = null;
+        try {
+            users = userService.findAll();
+        }
+        catch (DAOException ex) {
+            log.warn(ex.getMessage());
+        }
+        List<User> userList = new ArrayList<>(users);
+        if (userList.isEmpty()) {
+            console.printWithLineBreak("No users found!");
+            return;
+        }
+        console.printWithLineBreak("Users found successfully!");
+        console.printList(userList);
     }
 }

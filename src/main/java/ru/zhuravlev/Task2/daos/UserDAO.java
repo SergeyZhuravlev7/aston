@@ -21,4 +21,6 @@ public interface UserDAO<User,Long> {
     void update(User user,long id);
 
     void delete(long id);
+
+    Collection<User> findAll();
 }

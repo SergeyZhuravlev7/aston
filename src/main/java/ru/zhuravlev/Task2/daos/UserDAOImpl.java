@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import ru.zhuravlev.Task2.entitys.User;
 import ru.zhuravlev.Task2.util.DAOException;
 
+import java.util.Collection;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO<User, Long> {
@@ -108,6 +109,26 @@ public class UserDAOImpl implements UserDAO<User, Long> {
             session.remove(oldUser);
             session.getTransaction().commit();
         } catch (Exception ex) {
+            rollback(session);
+            throw new DAOException(ex.getMessage(),ex);
+        }
+    }
+
+    @Override
+    public Collection<User> findAll() {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
+            Root<User> root = criteriaQuery.from(User.class);
+            criteriaQuery.select(root);
+            List<User> userList = session.createQuery(criteriaQuery).getResultList();
+            session.getTransaction().commit();
+            return userList;
+        }
+        catch (Exception ex) {
             rollback(session);
             throw new DAOException(ex.getMessage(),ex);
         }
