@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>794</IntrospectionStateNumber>
+      <IntrospectionStateNumber>811</IntrospectionStateNumber>
       <ServerVersion>17.6</ServerVersion>
       <StartupTime>1758700282</StartupTime>
       <TimeZones>true ACDT
@@ -806,7 +806,7 @@ false Zulu
 24576||10|C|G
 24576||16388|C|G
 24576||10|U|G</Grants>
-      <IntrospectionStateNumber>794</IntrospectionStateNumber>
+      <IntrospectionStateNumber>811</IntrospectionStateNumber>
       <ObjectId>5</ObjectId>
       <OwnerName>Sergey</OwnerName>
     </database>
@@ -4238,21 +4238,21 @@ false Zulu
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <LastIntrospectionL1Xid>794</LastIntrospectionL1Xid>
-      <LastIntrospectionL2Xid>794</LastIntrospectionL2Xid>
-      <LastIntrospectionL3Xid>794</LastIntrospectionL3Xid>
+      <LastIntrospectionL1Xid>811</LastIntrospectionL1Xid>
+      <LastIntrospectionL2Xid>811</LastIntrospectionL2Xid>
+      <LastIntrospectionL3Xid>811</LastIntrospectionL3Xid>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
-      <LastIntrospectionLocalTimestamp>2025-09-24.08:26:13</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-09-24.11:47:51</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>753</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
     <sequence id="267" parent="266" name="users_id_seq">
       <DetailsLevel>2</DetailsLevel>
-      <ObjectId>24633</ObjectId>
+      <ObjectId>24642</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>790</StateNumber>
+      <StateNumber>803</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>postgres</OwnerName>
     </sequence>

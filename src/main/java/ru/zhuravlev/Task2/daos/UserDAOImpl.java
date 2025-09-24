@@ -4,7 +4,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
 import ru.zhuravlev.Task2.entitys.User;
 import ru.zhuravlev.Task2.util.DAOException;
 
@@ -15,66 +14,76 @@ public class UserDAOImpl implements UserDAO<User, Long> {
 
     @Override
     public void save(User user) {
-        try (Session session = sessionFactory.getCurrentSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.beginTransaction();
             session.persist(user);
             session.getTransaction().commit();
-        }
-        catch (Exception ex) {
-            throw new DAOException(ex.getMessage(), ex);
+        } catch (Exception ex) {
+            rollback(session);
+            throw new DAOException(ex.getMessage(),ex);
         }
     }
 
     @Override
     public User getUserById(long id) {
-        try (Session session = sessionFactory.getCurrentSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.beginTransaction();
             User user = session.get(User.class,id);
             session.getTransaction().commit();
             return user;
-        }
-        catch (Exception ex) {
-            throw new DAOException(ex.getMessage(), ex);
+        } catch (Exception ex) {
+            rollback(session);
+            throw new DAOException(ex.getMessage(),ex);
         }
     }
 
     @Override
     public List<User> getUsersByName(String name) {
         String query = "SELECT u FROM User u WHERE u.name = :name";
-        try (Session session = sessionFactory.getCurrentSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.beginTransaction();
             List<User> users = session.createQuery(query,User.class)
                     .setParameter("name",name)
                     .getResultList();
             session.getTransaction().commit();
-            if (!users.isEmpty()) return users;
+            if (! users.isEmpty()) return users;
             return null;
-        }
-        catch (Exception ex) {
-            throw new DAOException(ex.getMessage(), ex);
+        } catch (Exception ex) {
+            rollback(session);
+            throw new DAOException(ex.getMessage(),ex);
         }
     }
 
     @Override
     public User getUserByEmail(String email) {
-        try (Session session = sessionFactory.getCurrentSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.beginTransaction();
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
             Root<User> root = criteriaQuery.from(User.class);
-            criteriaQuery.select(root).where(cb.equal(root.get("email"), email));
+            criteriaQuery.select(root).where(cb.equal(root.get("email"),email));
             User user = session.createQuery(criteriaQuery).getSingleResult();
             session.getTransaction().commit();
             return user;
-        }
-        catch (Exception ex) {
-            throw new DAOException(ex.getMessage(), ex);
+        } catch (Exception ex) {
+            rollback(session);
+            throw new DAOException(ex.getMessage(),ex);
         }
     }
 
     @Override
     public void update(User newUser,long id) {
-        try (Session session = sessionFactory.getCurrentSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.beginTransaction();
             User oldUser = session.get(User.class,id);
             if (oldUser == null) throw new DAOException("User with id " + id + " does not exist");
@@ -83,22 +92,29 @@ public class UserDAOImpl implements UserDAO<User, Long> {
             oldUser.setName(newUser.getName());
             session.merge(oldUser);
             session.getTransaction().commit();
-        }
-        catch (Exception ex) {
-            throw new DAOException(ex.getMessage(), ex);
+        } catch (Exception ex) {
+            rollback(session);
+            throw new DAOException(ex.getMessage(),ex);
         }
     }
 
     @Override
     public void delete(long id) {
-        try (Session session = sessionFactory.getCurrentSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.beginTransaction();
             User oldUser = session.get(User.class,id);
             session.remove(oldUser);
             session.getTransaction().commit();
+        } catch (Exception ex) {
+            rollback(session);
+            throw new DAOException(ex.getMessage(),ex);
         }
-        catch (Exception ex) {
-            throw new DAOException(ex.getMessage(), ex);
-        }
+    }
+
+    private void rollback(Session session) {
+        if (session != null && session.getTransaction().isActive())
+            session.getTransaction().rollback();
     }
 }
