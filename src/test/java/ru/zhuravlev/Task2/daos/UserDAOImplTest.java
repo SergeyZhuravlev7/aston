@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.zhuravlev.Task2.entitys.User;
+import ru.zhuravlev.Task2.util.DAOException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,5 +166,34 @@ class UserDAOImplTest {
 
         assertNotNull(expectedUsers);
         assertEquals(5,expectedUsers.size());
+    }
+
+    @Test
+    void updateUserShouldThrowException() {
+        User user = new User();
+        user.setName("ErrorName");
+        user.setEmail("error@Email");
+        user.setAge(80);
+        long notExistingId = Long.MAX_VALUE;
+
+        assertThrows(DAOException.class, () -> userDAO.update(user,notExistingId));
+    }
+
+    @Test
+    void deleteUserShouldThrowException() {
+        User user = new User();
+        user.setName("ErrorName");
+        user.setEmail("error@Email");
+        user.setAge(80);
+        long notExistingId = Long.MAX_VALUE;
+
+        assertThrows(DAOException.class, () -> userDAO.delete(notExistingId));
+    }
+
+    @Test
+    void findByIdShouldReturnNull() {
+        long notExistingId = Long.MAX_VALUE;
+        User expectedUser = userDAO.getUserById(notExistingId);
+        assertNull(expectedUser);
     }
 }
