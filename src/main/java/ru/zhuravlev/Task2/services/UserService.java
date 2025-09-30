@@ -1,14 +1,18 @@
 package ru.zhuravlev.Task2.services;
 
 
-import ru.zhuravlev.Task2.daos.UserDAOImpl;
+import ru.zhuravlev.Task2.daos.UserDAO;
 import ru.zhuravlev.Task2.entitys.User;
 
 import java.util.Collection;
 
 public class UserService {
 
-    private final UserDAOImpl userDAO = new UserDAOImpl();
+    private final UserDAO<User, Long> userDAO;
+
+    public UserService(UserDAO<User, Long> userDAO) {
+        this.userDAO = userDAO;
+    }
 
     void saveUser(User user) {
         userDAO.save(user);

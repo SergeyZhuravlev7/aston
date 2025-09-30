@@ -51,7 +51,7 @@ class UserInputService {
             return null;
         }
 
-        return modelMapper.map(userDTO, User.class);
+        return modelMapper.map(userDTO,User.class);
     }
 
     Object handleFind(UserService userService) {

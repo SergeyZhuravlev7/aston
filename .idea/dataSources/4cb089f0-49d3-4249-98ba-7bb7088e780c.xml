@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>811</IntrospectionStateNumber>
+      <IntrospectionStateNumber>905</IntrospectionStateNumber>
       <ServerVersion>17.6</ServerVersion>
       <StartupTime>1758700282</StartupTime>
       <TimeZones>true ACDT
@@ -261,10 +261,10 @@ false Antarctica/Davis
 false Antarctica/DumontDUrville
 false Antarctica/Macquarie
 false Antarctica/Mawson
-false Antarctica/McMurdo
+true Antarctica/McMurdo
 false Antarctica/Palmer
 false Antarctica/Rothera
-false Antarctica/South_Pole
+true Antarctica/South_Pole
 false Antarctica/Syowa
 true Antarctica/Troll
 false Antarctica/Vostok
@@ -654,8 +654,8 @@ false NOVT
 false NPT
 false NST
 false NUT
-false NZ
-false NZ-CHAT
+true NZ
+true NZ-CHAT
 true NZDT
 false NZST
 false NZT
@@ -680,9 +680,9 @@ false PWT
 true PYST
 false PYT
 false Pacific/Apia
-false Pacific/Auckland
+true Pacific/Auckland
 false Pacific/Bougainville
-false Pacific/Chatham
+true Pacific/Chatham
 false Pacific/Chuuk
 true Pacific/Easter
 false Pacific/Efate
@@ -806,7 +806,7 @@ false Zulu
 24576||10|C|G
 24576||16388|C|G
 24576||10|U|G</Grants>
-      <IntrospectionStateNumber>811</IntrospectionStateNumber>
+      <IntrospectionStateNumber>905</IntrospectionStateNumber>
       <ObjectId>5</ObjectId>
       <OwnerName>Sergey</OwnerName>
     </database>
@@ -4238,23 +4238,301 @@ false Zulu
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <LastIntrospectionL1Xid>811</LastIntrospectionL1Xid>
-      <LastIntrospectionL2Xid>811</LastIntrospectionL2Xid>
-      <LastIntrospectionL3Xid>811</LastIntrospectionL3Xid>
+      <LastIntrospectionL1Xid>905</LastIntrospectionL1Xid>
+      <LastIntrospectionL2Xid>905</LastIntrospectionL2Xid>
+      <LastIntrospectionL3Xid>905</LastIntrospectionL3Xid>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
-      <LastIntrospectionLocalTimestamp>2025-09-24.11:47:51</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-09-30.08:07:06</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>753</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
-    <sequence id="267" parent="266" name="users_id_seq">
+    <sequence id="267" parent="266" name="animal_seq">
       <DetailsLevel>2</DetailsLevel>
-      <ObjectId>24642</ObjectId>
-      <SequenceIdentity>1</SequenceIdentity>
+      <ObjectId>24688</ObjectId>
+      <SequenceIdentity>1+50</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>803</StateNumber>
+      <StateNumber>890</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>postgres</OwnerName>
     </sequence>
+    <sequence id="268" parent="266" name="person_seq">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>24756</ObjectId>
+      <SequenceIdentity>1+50</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>895</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <OwnerName>postgres</OwnerName>
+    </sequence>
+    <sequence id="269" parent="266" name="users_id_seq">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>24650</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>815</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <OwnerName>postgres</OwnerName>
+    </sequence>
+    <table id="270" parent="266" name="animal">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>24724</ObjectId>
+      <StateNumber>880</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="271" parent="266" name="cat">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>24729</ObjectId>
+      <StateNumber>880</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="272" parent="266" name="dog">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>24734</ObjectId>
+      <StateNumber>881</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="273" parent="266" name="person">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>24751</ObjectId>
+      <StateNumber>894</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="274" parent="266" name="users">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>24651</ObjectId>
+      <StateNumber>815</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <column id="275" parent="270" name="id">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>877</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="276" parent="270" name="name">
+      <Position>2</Position>
+      <StateNumber>877</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="277" parent="270" name="animal_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24727</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>877</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="278" parent="270" name="animal_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24728</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>877</StateNumber>
+      <UnderlyingIndexId>24727</UnderlyingIndexId>
+    </key>
+    <column id="279" parent="271" name="poroda">
+      <Position>1</Position>
+      <StateNumber>878</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="280" parent="271" name="id">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>878</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <foreign-key id="281" parent="271" name="fkuvkn4uhxvjlpectf8o7yi4kq">
+      <ColNames>id</ColNames>
+      <ObjectId>24739</ObjectId>
+      <StateNumber>880</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>24724</RefTableId>
+    </foreign-key>
+    <index id="282" parent="271" name="cat_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24732</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>878</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="283" parent="271" name="cat_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24733</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>878</StateNumber>
+      <UnderlyingIndexId>24732</UnderlyingIndexId>
+    </key>
+    <column id="284" parent="272" name="poroda">
+      <Position>1</Position>
+      <StateNumber>879</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="285" parent="272" name="id">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>879</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <foreign-key id="286" parent="272" name="fkpt87v28upxqbirkjqglpx7hyf">
+      <ColNames>id</ColNames>
+      <ObjectId>24744</ObjectId>
+      <StateNumber>881</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>24724</RefTableId>
+    </foreign-key>
+    <index id="287" parent="272" name="dog_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24737</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>879</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="288" parent="272" name="dog_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24738</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>879</StateNumber>
+      <UnderlyingIndexId>24737</UnderlyingIndexId>
+    </key>
+    <column id="289" parent="273" name="id">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>894</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="290" parent="273" name="city">
+      <Position>2</Position>
+      <StateNumber>894</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="291" parent="273" name="country">
+      <Position>3</Position>
+      <StateNumber>894</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="292" parent="273" name="street">
+      <Position>4</Position>
+      <StateNumber>894</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="293" parent="273" name="zipcode">
+      <Position>5</Position>
+      <StateNumber>894</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="294" parent="273" name="firstname">
+      <Position>6</Position>
+      <StateNumber>894</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="295" parent="273" name="lastname">
+      <Position>7</Position>
+      <StateNumber>894</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="296" parent="273" name="person_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24754</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>894</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="297" parent="273" name="person_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24755</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>894</StateNumber>
+      <UnderlyingIndexId>24754</UnderlyingIndexId>
+    </key>
+    <column id="298" parent="274" name="id">
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>815</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <SequenceId>24650</SequenceId>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="299" parent="274" name="age">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>815</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="300" parent="274" name="created_at">
+      <Position>3</Position>
+      <StateNumber>815</StateNumber>
+      <StoredType>timestamp(6)|0s</StoredType>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="301" parent="274" name="email">
+      <Position>4</Position>
+      <StateNumber>815</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="302" parent="274" name="name">
+      <Position>5</Position>
+      <StateNumber>815</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="303" parent="274" name="users_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24654</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>815</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="304" parent="274" name="uk6dotkott2kjsp8vw4d0m25fb7">
+      <ColNames>email</ColNames>
+      <ObjectId>24656</ObjectId>
+      <StateNumber>817</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <key id="305" parent="274" name="users_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24655</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>815</StateNumber>
+      <UnderlyingIndexId>24654</UnderlyingIndexId>
+    </key>
+    <key id="306" parent="274" name="uk6dotkott2kjsp8vw4d0m25fb7">
+      <ObjectId>24657</ObjectId>
+      <StateNumber>817</StateNumber>
+      <UnderlyingIndexId>24656</UnderlyingIndexId>
+    </key>
   </database-model>
 </dataSource>

@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import ru.zhuravlev.Task2.entitys.User;
 import ru.zhuravlev.Task2.util.DAOException;
 
@@ -12,6 +13,11 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO<User, Long> {
 
+    private final SessionFactory sessionFactory;
+
+    public UserDAOImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public void save(User user) {
@@ -127,8 +133,7 @@ public class UserDAOImpl implements UserDAO<User, Long> {
             List<User> userList = session.createQuery(criteriaQuery).getResultList();
             session.getTransaction().commit();
             return userList;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             rollback(session);
             throw new DAOException(ex.getMessage(),ex);
         }

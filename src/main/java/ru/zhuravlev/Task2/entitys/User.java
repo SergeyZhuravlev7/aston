@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table (name = "users")
 public class User {
 
     @Id
@@ -14,7 +14,7 @@ public class User {
 
     private String name;
 
-    @Column(unique = true)
+    @Column (unique = true)
     private String email;
 
     private int age;
@@ -22,6 +22,13 @@ public class User {
     private LocalDateTime created_at;
 
     public User() {
+        this.created_at = LocalDateTime.now();
+    }
+
+    public User(String name,String email,int age) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
         this.created_at = LocalDateTime.now();
     }
 
@@ -65,7 +72,7 @@ public class User {
         this.created_at = created_at;
     }
 
-    public String toString(){
+    public String toString() {
         return "User{" + "id=" + id + ", name=" + name + ", email=" + email + ", age=" + age + ", created_at=" + created_at + '}';
     }
 }

@@ -2,9 +2,11 @@ package ru.zhuravlev.Task2.services;
 
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
+import ru.zhuravlev.Task2.daos.UserDAOImpl;
 import ru.zhuravlev.Task2.entitys.User;
 import ru.zhuravlev.Task2.util.ConsoleUI;
 import ru.zhuravlev.Task2.util.DAOException;
+import ru.zhuravlev.Task2.util.HibernateConfig;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +16,7 @@ import static java.time.LocalDateTime.now;
 
 public class CommandHandler {
 
-    private final UserService userService = new UserService();
+    private final UserService userService = new UserService(new UserDAOImpl(HibernateConfig.getSessionFactory()));
     private final Logger log = (Logger) LoggerFactory.getLogger(CommandHandler.class);
     private final ConsoleUI console = new ConsoleUI();
     private final UserInputService userInputService = new UserInputService();
@@ -77,8 +79,7 @@ public class CommandHandler {
                 List<User> userList = (List<User>) result;
                 console.printList(userList);
             }
-        }
-        else {
+        } else {
             log.warn("User not existing.");
             console.printWithLineBreak("Cant find this user. Try again with corrected input.");
         }
@@ -113,8 +114,7 @@ public class CommandHandler {
         Collection<User> users = null;
         try {
             users = userService.findAll();
-        }
-        catch (DAOException ex) {
+        } catch (DAOException ex) {
             log.warn(ex.getMessage());
         }
         List<User> userList = new ArrayList<>(users);

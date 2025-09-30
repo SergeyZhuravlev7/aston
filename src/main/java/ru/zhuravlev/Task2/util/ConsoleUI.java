@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class ConsoleUI {
 
-    private static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     public String nextLine() {
         return sc.nextLine();
