@@ -1,5 +1,6 @@
 package ru.zhuravlev.Task2.services;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -8,12 +9,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.zhuravlev.Task2.daos.UserDAOImpl;
 import ru.zhuravlev.Task2.entitys.User;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -24,9 +25,16 @@ class UserServiceTest {
     @InjectMocks
     UserService userService;
 
+    User user;
+
+    @BeforeEach
+    void setUp() {
+        user = new User();
+    }
+
     @Test
     void saveUserShouldCallDAO() {
-        User user = new User();
+        doNothing().when(userDAO).save(user);
 
         userService.saveUser(user);
 
@@ -35,7 +43,6 @@ class UserServiceTest {
 
     @Test
     void readUserByIdShouldReturnUser() {
-        User user = new User();
         when(userDAO.getUserById(1)).thenReturn(user);
 
         User expectedUser = userService.readUser(1);
@@ -45,7 +52,6 @@ class UserServiceTest {
 
     @Test
     void readUserByIdShouldReturnNull() {
-        User user = new User();
         when(userDAO.getUserById(1)).thenReturn(null);
 
         User expectedUser = userService.readUser(1);
@@ -55,20 +61,18 @@ class UserServiceTest {
 
     @Test
     void readUserByNameShouldReturnUser() {
-        User user = new User();
         String field = "Name";
         String value = "SomeName";
         when(userDAO.getUsersByName(value)).thenReturn(List.of(user));
 
         List<User> expectedUsers = (List<User>) userService.readUser(field,value);
 
-        assertEquals(expectedUsers.size(), 1);
-        assertEquals(expectedUsers.get(0), user);
+        assertEquals(1,expectedUsers.size());
+        assertEquals(expectedUsers.getFirst(), user);
     }
 
     @Test
     void readUserByNameShouldReturnNull() {
-        User user = new User();
         String field = "Name";
         String value = "SomeName";
         when(userDAO.getUsersByName(value)).thenReturn(null);
@@ -80,7 +84,6 @@ class UserServiceTest {
 
     @Test
     void readUserByEmailShouldReturnUser() {
-        User user = new User();
         String field = "Email";
         String value = "SomeEmail";
         when(userDAO.getUserByEmail(value)).thenReturn(user);
@@ -104,7 +107,7 @@ class UserServiceTest {
     @Test
     void updateShouldCallDAO() {
         long id = 1;
-        User user = new User();
+        doNothing().when(userDAO).update(user, id);
 
         userService.update(user, id);
 
@@ -114,6 +117,7 @@ class UserServiceTest {
     @Test
     void deleteShouldCallDAO() {
         long id = 1;
+        doNothing().when(userDAO).delete(id);
 
         userService.delete(id);
 
@@ -137,5 +141,15 @@ class UserServiceTest {
         for(User user : expectedUsers) {
             assertEquals(user.getName(), "TestName");
         }
+    }
+
+    @Test
+    void findAllShouldReturnEmptyList() {
+        when(userDAO.findAll()).thenReturn(new ArrayList<>());
+
+        List<User> expectedUsers = (List<User>) userService.findAll();
+
+        assertNotNull(expectedUsers);
+        assertEquals(0,expectedUsers.size());
     }
 }

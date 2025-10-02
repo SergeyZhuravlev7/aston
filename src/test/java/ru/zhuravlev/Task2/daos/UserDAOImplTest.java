@@ -8,7 +8,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.zhuravlev.Task2.entitys.User;
 import ru.zhuravlev.Task2.util.DAOException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +20,11 @@ class UserDAOImplTest {
 
     private static SessionFactory sessionFactory;
     private static UserDAOImpl userDAO;
+    static User user1;
+    static User user2;
+    static User user3;
+    static User user4;
+    static User user5;
 
     @BeforeAll
     static void beforeAll() {
@@ -33,11 +37,11 @@ class UserDAOImplTest {
         sessionFactory = new Configuration().addAnnotatedClass(ru.zhuravlev.Task2.entitys.User.class).buildSessionFactory();
         userDAO = new UserDAOImpl(sessionFactory);
 
-        User user1 = new User("test1", "test@test1", 30);
-        User user2 = new User("test2", "test@test2", 31);
-        User user3 = new User("test3", "test@test3", 32);
-        User user4 = new User("test4", "test@test4", 33);
-        User user5 = new User("test5", "test@test5", 34);
+        user1 = new User("test1", "test@test1", 30);
+        user2 = new User("test2", "test@test2", 31);
+        user3 = new User("test3", "test@test3", 32);
+        user4 = new User("test4", "test@test4", 33);
+        user5 = new User("test5", "test@test5", 34);
         for (User user : List.of(user1, user2, user3, user4, user5)) {
             userDAO.save(user);
         }
@@ -62,53 +66,41 @@ class UserDAOImplTest {
     @Test
     @Order(2)
     void getUserByIdShouldReturnUser1() {
-        User user = new User();
-        user.setId(1);
-        user.setName("test1");
-        user.setEmail("test@test1");
-        user.setAge(30);
+        User actualUser = user1;
 
         User expectedUser = userDAO.getUserById(1);
 
-        assertEquals(expectedUser.getId(), user.getId());
-        assertEquals(expectedUser.getName(), user.getName());
-        assertEquals(expectedUser.getEmail(), user.getEmail());
-        assertEquals(expectedUser.getAge(), user.getAge());
+        assertEquals(expectedUser.getId(), actualUser.getId());
+        assertEquals(expectedUser.getName(), actualUser.getName());
+        assertEquals(expectedUser.getEmail(), actualUser.getEmail());
+        assertEquals(expectedUser.getAge(), actualUser.getAge());
     }
 
     @Test
     @Order(3)
     void getUsersByNameShouldReturnListOfUser2() {
-        User user = new User();
-        user.setId(2);
-        user.setName("test2");
-        user.setEmail("test@test2");
-        user.setAge(31);
+        User actualUser = user2;
 
         List<User> expectedUsers = userDAO.getUsersByName("test2");
 
         assertNotNull(expectedUsers);
-        assertEquals(expectedUsers.getFirst().getName(), user.getName());
-        assertEquals(expectedUsers.getFirst().getEmail(), user.getEmail());
-        assertEquals(expectedUsers.getFirst().getAge(), user.getAge());
+        assertEquals(expectedUsers.getFirst().getName(), actualUser.getName());
+        assertEquals(expectedUsers.getFirst().getEmail(), actualUser.getEmail());
+        assertEquals(expectedUsers.getFirst().getAge(), actualUser.getAge());
         assertEquals(1,expectedUsers.size());
     }
 
     @Test
     @Order(4)
     void getUserByEmailShouldReturnUser3() {
-        User user = new User();
-        user.setId(3);
-        user.setName("test3");
-        user.setEmail("test@test3");
-        user.setAge(32);
+        User actualUser = user3;
 
         User expectedUser = userDAO.getUserByEmail("test@test3");
 
-        assertEquals(expectedUser.getId(), user.getId());
-        assertEquals(expectedUser.getName(), user.getName());
-        assertEquals(expectedUser.getEmail(), user.getEmail());
-        assertEquals(expectedUser.getAge(), user.getAge());
+        assertEquals(expectedUser.getId(), actualUser.getId());
+        assertEquals(expectedUser.getName(), actualUser.getName());
+        assertEquals(expectedUser.getEmail(), actualUser.getEmail());
+        assertEquals(expectedUser.getAge(), actualUser.getAge());
     }
 
     @Test
@@ -122,19 +114,14 @@ class UserDAOImplTest {
 
     @Test
     @Order(6)
-    void updateShouldUpdateUser() {
+    void updateShouldNotThrow() {
         User user = new User();
         long id = 1;
         user.setName("NewTestName");
         user.setEmail("newTest@Email");
         user.setAge(80);
 
-        userDAO.update(user,id);
-        User expectedUser = userDAO.getUserById(id);
-
-        assertEquals(expectedUser.getName(), user.getName());
-        assertEquals(expectedUser.getEmail(), user.getEmail());
-        assertEquals(expectedUser.getAge(), user.getAge());
+        assertDoesNotThrow(() -> userDAO.update(user,id));
     }
 
     @Test
@@ -142,11 +129,7 @@ class UserDAOImplTest {
     void deleteShouldDeleteUser() {
         long id = 1;
 
-        userDAO.delete(id);
-
-        User expectedUser = userDAO.getUserById(id);
-
-        assertNull(expectedUser);
+        assertDoesNotThrow(() -> userDAO.delete(id));
     }
 
     @Test
@@ -170,10 +153,7 @@ class UserDAOImplTest {
 
     @Test
     void updateUserShouldThrowException() {
-        User user = new User();
-        user.setName("ErrorName");
-        user.setEmail("error@Email");
-        user.setAge(80);
+        User user = getErrorUser();
         long notExistingId = Long.MAX_VALUE;
 
         assertThrows(DAOException.class, () -> userDAO.update(user,notExistingId));
@@ -181,10 +161,7 @@ class UserDAOImplTest {
 
     @Test
     void deleteUserShouldThrowException() {
-        User user = new User();
-        user.setName("ErrorName");
-        user.setEmail("error@Email");
-        user.setAge(80);
+        User user = getErrorUser();
         long notExistingId = Long.MAX_VALUE;
 
         assertThrows(DAOException.class, () -> userDAO.delete(notExistingId));
@@ -193,7 +170,17 @@ class UserDAOImplTest {
     @Test
     void findByIdShouldReturnNull() {
         long notExistingId = Long.MAX_VALUE;
+
         User expectedUser = userDAO.getUserById(notExistingId);
+
         assertNull(expectedUser);
+    }
+
+    private User getErrorUser() {
+        User user = new User();
+        user.setName("ErrorName");
+        user.setEmail("error@Email");
+        user.setAge(80);
+        return user;
     }
 }

@@ -1,6 +1,7 @@
 package ru.zhuravlev.Task2.services;
 
 import ch.qos.logback.classic.Logger;
+import org.modelmapper.ModelMapper;
 import org.slf4j.LoggerFactory;
 import ru.zhuravlev.Task2.daos.UserDAOImpl;
 import ru.zhuravlev.Task2.entitys.User;
@@ -16,11 +17,16 @@ import static java.time.LocalDateTime.now;
 
 public class CommandHandler {
 
-    private final UserService userService = new UserService(new UserDAOImpl(HibernateConfig.getSessionFactory()));
+    private final UserService userService;
     private final Logger log = (Logger) LoggerFactory.getLogger(CommandHandler.class);
-    private final ConsoleUI console = new ConsoleUI();
-    private final UserInputService userInputService = new UserInputService();
+    private final ConsoleUI console;
+    private final UserInputService userInputService;
 
+    public CommandHandler(UserService userService,ConsoleUI console, UserInputService userInputService) {
+        this.userService = userService;
+        this.console = console;
+        this.userInputService = userInputService;
+    }
 
     public void start() {
         console.printWithLineBreak("Welcome in UserService application!");

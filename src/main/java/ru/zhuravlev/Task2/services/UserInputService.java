@@ -9,11 +9,16 @@ import ru.zhuravlev.Task2.util.ConsoleUI;
 
 import static ru.zhuravlev.Task2.util.UserDTOValidator.validateUser;
 
-class UserInputService {
+public class UserInputService {
 
-    private final ConsoleUI console = new ConsoleUI();
+    private final ConsoleUI console;
     private final Logger log = (Logger) LoggerFactory.getLogger(UserInputService.class);
-    ModelMapper modelMapper = new ModelMapper();
+    private ModelMapper modelMapper;
+
+    public UserInputService(ConsoleUI console, ModelMapper modelMapper) {
+        this.console = console;
+        this.modelMapper = new ModelMapper();
+    }
 
     User handleSave() {
         console.printWithLineBreak("Okay, let's create user. Enter Stop to cancel.");
