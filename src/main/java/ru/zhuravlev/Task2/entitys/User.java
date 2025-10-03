@@ -3,6 +3,8 @@ package ru.zhuravlev.Task2.entitys;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 @Entity
 @Table (name = "users")
@@ -74,5 +76,17 @@ public class User {
 
     public String toString() {
         return "User{" + "id=" + id + ", name=" + name + ", email=" + email + ", age=" + age + ", created_at=" + created_at + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && age == user.age && Objects.equals(name,user.name) && Objects.equals(email,user.email) && created_at.truncatedTo(ChronoUnit.MILLIS).isEqual(user.created_at.truncatedTo(ChronoUnit.MILLIS));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id,name,email,age,created_at.truncatedTo(ChronoUnit.MICROS));
     }
 }

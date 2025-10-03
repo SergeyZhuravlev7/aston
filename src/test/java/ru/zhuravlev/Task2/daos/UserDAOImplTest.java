@@ -70,10 +70,7 @@ class UserDAOImplTest {
 
         User expectedUser = userDAO.getUserById(1);
 
-        assertEquals(expectedUser.getId(), actualUser.getId());
-        assertEquals(expectedUser.getName(), actualUser.getName());
-        assertEquals(expectedUser.getEmail(), actualUser.getEmail());
-        assertEquals(expectedUser.getAge(), actualUser.getAge());
+        assertEquals(expectedUser, actualUser);
     }
 
     @Test
@@ -84,9 +81,7 @@ class UserDAOImplTest {
         List<User> expectedUsers = userDAO.getUsersByName("test2");
 
         assertNotNull(expectedUsers);
-        assertEquals(expectedUsers.getFirst().getName(), actualUser.getName());
-        assertEquals(expectedUsers.getFirst().getEmail(), actualUser.getEmail());
-        assertEquals(expectedUsers.getFirst().getAge(), actualUser.getAge());
+        assertEquals(expectedUsers.getFirst(), actualUser);
         assertEquals(1,expectedUsers.size());
     }
 
@@ -97,10 +92,7 @@ class UserDAOImplTest {
 
         User expectedUser = userDAO.getUserByEmail("test@test3");
 
-        assertEquals(expectedUser.getId(), actualUser.getId());
-        assertEquals(expectedUser.getName(), actualUser.getName());
-        assertEquals(expectedUser.getEmail(), actualUser.getEmail());
-        assertEquals(expectedUser.getAge(), actualUser.getAge());
+        assertEquals(expectedUser, actualUser);
     }
 
     @Test
